@@ -1,1 +1,1 @@
-In this project, I'm gonna fix some personal issues, for example Youtube. When searching for something on youtube you get presented with four videos followed by a bunch of shorts and random videos. This extension is meant to remove shorts completely and hopefully fix the searching results. 
+The extension.js is meant to be a extension for chrome. You can toggle what you want youtube to display.
