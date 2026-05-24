@@ -1,8 +1,19 @@
 // Ett script som tar bort shorts från youtube.
 
+const settings = {
+    hideShorts: true,
+    hideRecommended: true
+}; 
+
+function toggleShorts() {
+    // Om shorts är syns, ta bort dom.
+    // Om shorts inte syns, visa dom
+    settings.hideShorts = !settings.hideShorts; 
+};
 
 // Funktionen 
 function hideShorts() {
+
     const shortsSection = document.querySelectorAll("ytd-rich-shelf-renderer"); 
 
     shortsSection.forEach((section) => {
@@ -13,12 +24,46 @@ function hideShorts() {
 
     if(shortsButton) {
         shortsButton.style.display = "none"; 
-    }
+    }    
+};
+
+function hideRecommended() {
 
     const recommended = document.getElementById("secondary"); 
+
     if (recommended) 
         recommended.style.display = "none"; 
 
-};
+}
 
-setInterval(hideShorts, 1000); 
+function showRecommendations(){
+    const recommended = document.getElementById("secondary"); 
+
+    if(recommended)
+        recommended.style.display = ""; 
+}
+
+function applyFocusMode() {
+    if(settings.hideShorts){
+        hideShorts();
+    }
+    if(settings.hideRecommended) {
+        hideRecommended(); 
+    }
+} 
+
+function toggleRecommended() {
+    settings.hideRecommended = !settings.hideRecommended; 
+}
+
+setInterval(applyFocusMode, 1000); 
+
+/* 
+MutationObserver istället för setInterval
+chrome.storage
+popup UI
+background scripts
+messaging
+TypeScript
+build tools 
+*/
