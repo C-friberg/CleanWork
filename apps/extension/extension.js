@@ -1,73 +1,110 @@
-// Ett script som tar bort shorts från youtube.
-console.log("Extension running"); 
+console.log("Extension running");
+
 
 const settings = {
-    hideShorts: true,
-    hideRecommended: true
-}; 
-
-function toggleShorts() {
-    // Om shorts är syns, ta bort dom.
-    // Om shorts inte syns, visa dom
-    settings.hideShorts = !settings.hideShorts; 
+    hideHomePageShorts: true,
+    hideRecommended: true,
+    hideSearchPageShorts: true
 };
 
-// Funktionen 
-function hideShorts() {
-
-    const shortsSection = document.querySelectorAll("ytd-rich-shelf-renderer"); 
-
-    shortsSection.forEach((section) => {
-        section.style.display = "none"; 
-    }); 
-
-    const shortsButton = document.querySelector('a[title="Shorts"]'); 
-
-    if(shortsButton) {
-        shortsButton.style.display = "none"; 
-    }    
-};
-
-function hideRecommended() {
-
-    const recommended = document.getElementById("secondary"); 
-
-    if (recommended) 
-        recommended.style.display = "none"; 
-
+function toggleHomePageShorts() {
+    settings.hideHomePageShorts = !settings.hideHomePageShorts;
+    applyFocusMode();
 }
 
-function showRecommendations(){
-    const recommended = document.getElementById("secondary"); 
+function toggleSearchPageShorts() {
+    settings.hideSearchPageShorts = !settings.hideSearchPageShorts;
+    applyFocusMode();
+}
 
-    if(recommended)
-        recommended.style.display = ""; 
+function toggleRecommended() {
+    settings.hideRecommended = !settings.hideRecommended;
+    applyFocusMode();
+}
+
+function hideHomepageShorts() {
+    const shortsLinks = document.querySelectorAll('a[href^="/shorts/"]');
+
+    shortsLinks.forEach((link) => {
+        const shelf = link.closest("ytd-rich-shelf-renderer");
+
+        if (shelf) {
+            shelf.style.display = "none";
+        }
+    });
+
+    hideShortsButton();
+}
+
+function hideSearchPageShorts() {
+    const shortsLinks = document.querySelectorAll('a[href^="/shorts/"]');
+
+    shortsLinks.forEach((link) => {
+        const row = link.closest(".ytGridShelfViewModelGridShelfRow");
+
+        if (row) {
+            row.style.display = "none";
+        }
+    });
+
+    hideShortsButton();
+}
+
+function hideShortsButton() {
+    const shortsButton = document.querySelector('a[title="Shorts"]');
+
+    if (shortsButton) {
+        shortsButton.style.display = "none";
+    }
+}
+
+function hideRecommended() {
+    const recommended = document.getElementById("secondary");
+
+    if (recommended) {
+        recommended.style.display = "none";
+    }
+}
+
+function showRecommendations() {
+    const recommended = document.getElementById("secondary");
+
+    if (recommended) {
+        recommended.style.display = "";
+    }
 }
 
 function applyFocusMode() {
-    if(settings.hideShorts){
-        hideShorts();
+    if (settings.hideHomePageShorts) {
+        hideHomepageShorts();
     }
-    if(settings.hideRecommended) {
-        hideRecommended(); 
-    }
-} 
 
-function toggleRecommended() {
-    settings.hideRecommended = !settings.hideRecommended; 
+    if (settings.hideSearchPageShorts) {
+        hideSearchPageShorts();
+    }
+
+    if (settings.hideRecommended) {
+        hideRecommended();
+    } else {
+        showRecommendations();
+    }
 }
 
-applyFocusMode(); 
+applyFocusMode();
 
- 
 const observer = new MutationObserver(() => {
-    applyFocusMode(); 
+    applyFocusMode();
 });
 
 observer.observe(document.body, {
     childList: true,
     subtree: true
-}); 
+});
+
+
+/* shorts in search mode: ytSectionHeaderViewModelHost */
+/* shorts div: ytGridShelfViewModelGridShelfRow ytd-item-section-renderer */
+
 
 /* 
 MutationObserver istället för setInterval
