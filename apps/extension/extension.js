@@ -1,4 +1,5 @@
 // Ett script som tar bort shorts från youtube.
+console.log("Extension running"); 
 
 const settings = {
     hideShorts: true,
@@ -56,7 +57,17 @@ function toggleRecommended() {
     settings.hideRecommended = !settings.hideRecommended; 
 }
 
-setInterval(applyFocusMode, 1000); 
+applyFocusMode(); 
+
+ 
+const observer = new MutationObserver(() => {
+    applyFocusMode(); 
+});
+
+observer.observe(document.body, {
+    childList: true,
+    subtree: true
+}); 
 
 /* 
 MutationObserver istället för setInterval
@@ -67,3 +78,4 @@ messaging
 TypeScript
 build tools 
 */
+
