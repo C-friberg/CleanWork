@@ -91,7 +91,7 @@ function applyFocusMode() {
 }
 
 applyFocusMode();
-
+// OBS! Extensionet kan vara lite segt, dels tack vare MutationObserver som håller koll på alla DOM-förändringar.
 const observer = new MutationObserver(() => {
     applyFocusMode();
 });
@@ -100,6 +100,18 @@ observer.observe(document.body, {
     childList: true,
     subtree: true
 });
+
+//Implementera Popup UI
+
+//Spara våra settings med chrome.storage
+
+// Bättre restore-logik, stänger man av t.ex Recommended så ska dom försvinna utan att refresh krävs.
+
+// Städa upp kod
+
+// Dokumentera
+
+//Issues på framtida tillägg.
 
 
 /* shorts in search mode: ytSectionHeaderViewModelHost */
